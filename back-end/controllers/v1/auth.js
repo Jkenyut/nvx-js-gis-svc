@@ -132,7 +132,7 @@ const registerAdmin = async (req, res, next) => {
     });
     const data = await user.save();
     if (data) {
-      res.status(200).json({ message: "success" });
+      res.status(201).json({ message: "success" });
     } else {
       const error = new Error("id data not found");
       error.httpStatusCode = 404;
@@ -143,13 +143,8 @@ const registerAdmin = async (req, res, next) => {
   }
 };
 
-const ok = (req, res, next) => {
-  res.redirect("/");
-};
-
 module.exports = {
   loginAdmin,
   logoutAdmin,
   registerAdmin,
-  ok,
 };

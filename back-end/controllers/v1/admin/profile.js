@@ -34,7 +34,6 @@ const updateProfile = async (req, res, next) => {
     }
     const lastPassword = req.body.lastPassword;
     const newPassword = req.body.newPassword;
-    const newUsername = req.body.username;
 
     const errors = [];
     if (
@@ -64,14 +63,7 @@ const updateProfile = async (req, res, next) => {
       error.httpStatusCode = 401;
       throw error;
     }
-    const existingUserName = await Admin.findOne({
-      username: newUsername,
-    });
-    if (existingUserName) {
-      const error = new Error("Username alread exists, please change your username");
-      error.httpStatusCode = 401;
-      throw error;
-    }
+
     const passwordEquals = await bcryptjs.compare(lastPassword, existingUser.password);
     if (!passwordEquals) {
       const error = new Error("password mismatch");
@@ -80,17 +72,16 @@ const updateProfile = async (req, res, next) => {
     }
 
     const hashedPwValid = await bcryptjs.hash(validator.ltrim(newPassword), 12);
-    const usernameValid = validator.ltrim(newUsername);
 
     const newProfile = {
       email: existingUser.email,
       password: hashedPwValid,
-      username: usernameValid,
+      username: existingUser.username,
     };
 
     const data = await Admin.findByIdAndUpdate(req.userId, newProfile);
     if (data) {
-      res.status(200).json({ message: "success" });
+      res.status(201).json({ message: "success" });
     } else {
       const error = new Error("id data not found");
       error.httpStatusCode = 404;
@@ -126,7 +117,7 @@ const deleteProfile = async (req, res, next) => {
     const data = await Admin.findByIdAndDelete(id);
     if (data) {
       res.removeHeader("Authorization");
-      res.status(200).json({ message: "success" });
+      res.status(201).json({ message: "success" });
       res.redirect("/");
     } else {
       const error = new Error("id data not found");

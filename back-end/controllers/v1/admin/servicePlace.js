@@ -97,7 +97,7 @@ const createServicePlace = async (req, res, next) => {
       geometry: coordinatesValid,
     });
     await addServicePlace.save();
-    res.status(200).json({ message: "success" });
+    res.status(201).json({ message: "success" });
   } catch (err) {
     return next(err);
   }
@@ -139,6 +139,9 @@ const readServicePlaceById = async (req, res, next) => {
     if (data) {
       res.status(200).json({ message: data });
     } else {
+      const error = new Error("data not found");
+      error.httpStatusCode = 401;
+      throw error;
     }
   } catch (err) {
     return next(err);
@@ -242,7 +245,7 @@ const updateServicePlace = async (req, res, next) => {
     };
     const data = await ServicePlace.findByIdAndUpdate(id, updateServicePlaceById);
     if (data) {
-      res.status(200).json({ message: "success" });
+      res.status(201).json({ message: "success" });
     } else {
       const error = new Error("id data not found");
       error.httpStatusCode = 404;
@@ -263,7 +266,7 @@ const deleteServicePlace = async (req, res, next) => {
     const id = validator.trim(req.params.id);
     const data = await ServicePlace.findByIdAndDelete(id.toString());
     if (data) {
-      res.status(200).json({ message: "success" });
+      res.status(201).json({ message: "success" });
     } else {
       const error = new Error("id data not found");
       error.httpStatusCode = 404;

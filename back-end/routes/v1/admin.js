@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const authController = require("../../controllers/v1/auth");
+
 const AdminServicePlaceController = require("../../controllers/v1/admin/servicePlace");
 const AdminProfileController = require("../../controllers/v1/admin/profile");
 const { isAuth } = require("../../middleware/isAuth");
@@ -11,7 +12,7 @@ router.post("/v1/profile/delete", isAuth, AdminProfileController.deleteProfile);
 
 router.post("/v1/register", authController.registerAdmin);
 router.post("/v1/login", authController.loginAdmin);
-router.get("/v1/ok", authController.ok);
+
 router.post("/v1/logout", isAuth, authController.logoutAdmin);
 
 router.post("/v1/service-place", isAuth, AdminServicePlaceController.createServicePlace);
