@@ -13,11 +13,11 @@ const pointSchema = new mongoose.Schema({
 
 const informationSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  rating: { type: Number, required: true },
-  location: { type: String, required: true},
-  clock: { type: [Number] },
+  rating: { type: Number, required: true, default: 0 },
+  location: { type: String, required: true },
+  clock: { type: [String], default: " " },
   website: { type: String },
-  headphone: { type: Number },
+  headphone: { type: String },
 });
 const servicePlaceSchema = new mongoose.Schema(
   {

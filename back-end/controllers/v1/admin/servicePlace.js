@@ -8,9 +8,9 @@ const createServicePlace = async (req, res, next) => {
       error.httpStatusCode = 401;
       throw error;
     }
+
     const errors = [];
     const name = validator.trim(req.body.name);
-
     const rating = validator.trim(req.body.rating);
     const location = validator.trim(req.body.location);
     const open = validator.trim(req.body.open);
@@ -43,10 +43,9 @@ const createServicePlace = async (req, res, next) => {
         message: "Url not valid",
       });
     }
-
-    if (!validator.isEmpty(headphone) && !validator.isInt(headphone, { min: 10, max: 13 })) {
+    if (!validator.isEmpty(headphone) && !validator.isLength(headphone, { min: 8, max: 15 })) {
       errors.push({
-        message: "headphone is not a valid number only leng 10-13",
+        message: "headphone is not a valid number only lenght 10-13",
       });
     }
 
@@ -61,7 +60,7 @@ const createServicePlace = async (req, res, next) => {
         message: "latitude must float",
       });
     }
-    console.log(errors);
+
     if (errors.length > 0) {
       const error = new Error("invalid Input");
       error.data = errors;
@@ -192,7 +191,7 @@ const updateServicePlace = async (req, res, next) => {
       });
     }
 
-    if (!validator.isEmpty(headphone) && !validator.isInt(headphone, { min: 10, max: 13 })) {
+    if (!validator.isEmpty(headphone) && !validator.isLength(headphone, { min: 8, max: 15 })) {
       errors.push({
         message: "headphone is not a valid number only leng 10-13",
       });
