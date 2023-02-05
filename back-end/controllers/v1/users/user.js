@@ -4,7 +4,12 @@ const readAllData = async (req, res, next) => {
   try {
     const data = await ServicePlace.find();
     if (data) {
-      res.status(200).json({ message: data });
+      res.status(200).json({
+        message: {
+          type: "FeatureCollection",
+          features: [data],
+        },
+      });
     } else {
       const error = new Error("data not found");
       error.httpStatusCode = 401;
@@ -20,7 +25,12 @@ const readServicePlaceById = async (req, res, next) => {
     const id = validator.trim(req.params.id);
     const data = await ServicePlace.findById(id);
     if (data) {
-      res.status(200).json({ message: data });
+      res.status(200).json({
+        message: {
+          type: "FeatureCollection",
+          features: [data],
+        },
+      });
     } else {
     }
   } catch (err) {
